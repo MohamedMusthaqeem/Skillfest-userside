@@ -1,6 +1,7 @@
 import React from "react";
 import LoginImg from "../../assets/Images/Ani.gif";
 import Google from "../../assets/Images/Google.png";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -59,12 +60,12 @@ const Login = () => {
             </div>
             {/* Submit Button */}
             <div className="py-2 ">
-              <button
-                type="submit"
+              <Link
+                to="/layout"
                 className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
               >
                 Sign In
-              </button>
+              </Link>
             </div>
 
             {/* Sign In with Google */}
