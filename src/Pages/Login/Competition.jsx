@@ -17,8 +17,9 @@ const Competition = () => {
   }, []);
   return (
     <div className="min-h-screen">
-      <div>
-        <Card compet={competitions} />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {competitions &&
+          competitions.map((comp) => <Card key={comp._id} com={comp} />)}
       </div>
     </div>
   );
