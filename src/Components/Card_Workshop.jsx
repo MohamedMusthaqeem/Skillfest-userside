@@ -4,13 +4,9 @@ import { FaRegClock } from "react-icons/fa";
 import { Modal } from "flowbite-react";
 import { MdInfoOutline } from "react-icons/md";
 import { useState } from "react";
-import first from "../assets/Images/first.png";
-import second from "../assets/Images/second.png";
-import third from "../assets/Images/third.png";
 import certification from "../assets/Images/icons8-certification-48.png";
 import axios from "axios";
-
-const Card = ({ com }) => {
+const Card_Workshop = ({ com }) => {
   //states
   const [name, setName] = useState("");
   const [year, setYear] = useState("");
@@ -21,7 +17,7 @@ const Card = ({ com }) => {
   const [fees, setFee] = useState("");
   const [supportnumone, setOne] = useState("");
   const [supportnumtwo, setTwo] = useState("");
-  //modal open/close func
+  //modal on/off
   const [openModal, setOpenModal] = useState(false);
   function onCloseModal() {
     setOpenModal(false);
@@ -117,32 +113,39 @@ const Card = ({ com }) => {
                         <span className="font-semibold px-1">Date:</span>
                         {com.date}
                       </p>
-                      <div className="space-y-2">
-                        <h1 className="text-lg text-center">Prize Pool</h1>
-                        <div className="flex space-x-2 items-center">
-                          <img src={first} alt="" />
-                          <p>Rs.{com.first_prize}</p>
-                        </div>
-                        <div className="flex space-x-2  items-center">
-                          <img src={second} alt="" />
-                          <p>Rs.{com.second_prize}</p>
-                        </div>
-                        <div className="flex space-x-2  items-center">
-                          <img src={third} alt="" />
-                          <p>Rs.{com.third_prize}</p>
-                        </div>
+                      <div className="flex space-x-1 items-baseline">
+                        <h1 className="text-lg font-Poppins font-semibold">
+                          Outcomes:
+                        </h1>
+                        <p>{com.outcomes}</p>
                       </div>
-                      <div>
-                        <div className="flex space-x-2 items-center">
-                          <img src={certification} alt="" />
-                          <p>
-                            Participation Certificate will be provided for all
-                            the participants
-                          </p>
-                        </div>
+                      <div className="flex space-x-1 items-center">
+                        <h1 className="text-lg font-Poppins font-semibold">
+                          Incharge:
+                        </h1>
+                        <p>{com.incharge}</p>
+                      </div>
+                      <div className="flex space-x-1 items-center">
+                        <h1 className="text-lg font-Poppins font-semibold">
+                          No.of.Hours:
+                        </h1>
+                        <p>{com.no_of_hours}</p>
+                      </div>
+                      <div className="flex space-x-1 items-center">
+                        <h1 className="text-lg font-Poppins font-semibold">
+                          No.of.Days:
+                        </h1>
+                        <p>{com.no_of_days}</p>
                       </div>
                     </div>
-                    <h3 className="text-xl font-medium text-gray-900 font-Poppins dark:text-white">
+                    <div className="flex space-x-2 items-center">
+                      <img src={certification} alt="" />
+                      <p>
+                        e-Certification will be provided after the end of the
+                        workshop
+                      </p>
+                    </div>
+                    <h3 className="text-xl font-medium text-gray-900 font-Poppins  dark:text-white">
                       Register
                     </h3>
                     {/* basic instructions */}
@@ -252,10 +255,7 @@ const Card = ({ com }) => {
                         </p>
                       </div>
                       <div className="px-3 py-2">
-                        <button
-                          className="w-full py-2 rounded-xl border border-Primary hover:bg-Primary hover:text-white duration-150  "
-                          onClick={handleRegister}
-                        >
+                        <button className="w-full py-2 rounded-xl border border-Primary hover:bg-Primary hover:text-white duration-150  " onClick={handleRegister}>
                           Register
                         </button>
                         <div className="p-2 text-sm text-red-700 border border-red-700 rounded-lg my-2 bg-red-200">
@@ -276,4 +276,4 @@ const Card = ({ com }) => {
   );
 };
 
-export default Card;
+export default Card_Workshop;

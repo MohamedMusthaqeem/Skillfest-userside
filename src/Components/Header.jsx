@@ -10,10 +10,10 @@ const Header = () => {
   });
   return (
     <div className="sticky top-0">
-      <div className="bg-Primary text-white py-4 flex justify-center items-baseline space-x-4 ">
+      <div className="bg-Primary text-white py-4 flex justify-center items-baseline space-x-4  ">
         <h1 className=" font-Monoton text-xl text-[#EFC75E]">SkillFest</h1>
         <div className="  text-black">
-          <div className="flex justify-center space-x-9 bg-white w-fit px-2 py-1 rounded-full pr-2 hold">
+          <div className="flex justify-center space-x-9 bg-white w-fit px-2 py-1 rounded-full pr-2 transition-all">
             <Link
               to="/layout"
               className={`cursor-pointer ${active.s1} px-2 py-1 `}
