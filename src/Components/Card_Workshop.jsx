@@ -5,6 +5,7 @@ import { Modal } from "flowbite-react";
 import { MdInfoOutline } from "react-icons/md";
 import { useState } from "react";
 import certification from "../assets/Images/icons8-certification-48.png";
+import {useAuthContext} from '../hooks/useAuthContext'
 import axios from "axios";
 const Card_Workshop = ({ com }) => {
   //states
@@ -17,6 +18,8 @@ const Card_Workshop = ({ com }) => {
   const [fees, setFee] = useState("");
   const [supportnumone, setOne] = useState("");
   const [supportnumtwo, setTwo] = useState("");
+  const {user}=useAuthContext();
+
   //modal on/off
   const [openModal, setOpenModal] = useState(false);
   function onCloseModal() {
@@ -29,6 +32,9 @@ const Card_Workshop = ({ com }) => {
     setTwo(com.supportnumtwo);
     setFee(com.amount);
     e.preventDefault();
+    if(!user){
+      return
+    }
     const reg = {
       name,
       year,
@@ -44,6 +50,7 @@ const Card_Workshop = ({ com }) => {
     const res = await axios.post("http://localhost:5000/api/register", reg, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization":`Bearer ${user.token}`,
       },
     });
     if (!res.status) {
@@ -192,6 +199,7 @@ const Card_Workshop = ({ com }) => {
                           }}
                           value={year}
                         >
+                          <option value="">Select Year</option>
                           <option value="1">First</option>
                           <option value="2">Second</option>
                           <option value="3">Third</option>

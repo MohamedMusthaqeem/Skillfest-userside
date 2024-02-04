@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import LoginImg from "../../assets/Images/Ani.gif";
 import Google from "../../assets/Images/Google.png";
 import { Link } from "react-router-dom";
-
+import {useLogin} from '../../hooks/useLogin'
+import { RxCross2 } from "react-icons/rx";
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [show, setShow] = useState("");
+  const { login, error, isLoading } = useLogin();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(email, password);
+  };
   return (
     <div className="min-h-screen flex flex-col justify-center bg-white">
       <div className="flex flex-col md:flex-row items-center md:justify-evenly md:p-28 ">
@@ -11,13 +20,13 @@ const Login = () => {
           <img src={LoginImg} alt="" className="hidden md:block" />
         </div>
         <div className="w-full max-w-md p-6 bg-white rounded-md shadow-lg">
-          <h1 className="text-3xl font-semibold text-gray-800 uppercase">
-            skillfest
+        <h1 className="text-3xl font-semibold text-gray-800 uppercase">
+            skill <span className="text-red-600">f</span><span className="text-yellow-400">e</span><span className="text-green-500">s</span><span className="text-blue-600">t</span>
           </h1>
           <h1 className="text-3xl font-semibold text-gray-800 mb-6">Login</h1>
 
           {/* Login Form */}
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -29,9 +38,12 @@ const Login = () => {
                 type="email"
                 id="email"
                 name="email"
+                onChange={(e)=>{
+                  setEmail(e.target.value);
+                }}
+                value={email}
                 className="mt-1 p-2 w-full border rounded-md outline-none"
                 placeholder="sample@example.com"
-                required
               />
             </div>
 
@@ -46,9 +58,13 @@ const Login = () => {
                 type="password"
                 id="password"
                 name="password"
+                onChange={(e)=>{
+                  setPassword(e.target.value);
+                }}
+                value={password}
+                autoComplete="on"
                 className="mt-1 p-2 w-full border rounded-md outline-none"
                 placeholder="********"
-                required
               />
             </div>
 
@@ -59,13 +75,17 @@ const Login = () => {
               </a>
             </div>
             {/* Submit Button */}
-            <div className="py-2 ">
-              <Link
-                to="/layout"
-                className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+            <div className="py-5 ">
+              <button
+               className="w-full
+               bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+                 disabled={isLoading}
+                 onClick={()=>{
+                  setShow("")
+                }}
               >
                 Sign In
-              </Link>
+              </button>
             </div>
 
             {/* Sign In with Google */}
@@ -78,7 +98,24 @@ const Login = () => {
                 <p>Sign in with Google</p>
               </button>
             </div>
+            <div className="flex space-x-2 justify-center">
+              <h1>If you don't have an account</h1>
+              <Link to="signup" className="text-blue-500">SignUp</Link>
+            </div>
           </form>
+        {error && (
+              <div
+                className={`text-red-700 border bg-red-200 border-red-600 p-2 my-2 justify-center items-center gap-4  rounded-lg flex ${show}`}
+              >
+                {error}
+                <RxCross2
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setShow("hidden");
+                  }}
+                />
+              </div>
+            )}
         </div>
       </div>
     </div>

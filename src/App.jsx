@@ -6,13 +6,17 @@ import Events from "./Pages/Events";
 import Workshop from "./Pages/Workshop";
 import Registered from "./Pages/Registered";
 import About from "./Pages/About";
-
+import Layout1 from "./Layout1";
+import Signup from "./Pages/Login/Signup";
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/layout" element={<Layout />}>
+        <Route path="/" element={<Layout1/>} >
+         <Route path="/" element={<Login/>}/>
+         <Route path="signup" element={<Signup/>}/>
+        </Route>
+        <Route path="/layout" element={<Layout /> }>
           <Route path="/layout" element={<Competition />} />
           <Route path="/layout/event" element={<Events />} />
           <Route path="/layout/workshop" element={<Workshop />} />

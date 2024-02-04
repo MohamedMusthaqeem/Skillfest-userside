@@ -5,7 +5,7 @@ const Register_Card = ({reg}) => {
   return (
     <div>
       <div className="border border-black m-2 p-4 w-fit rounded-lg bg-blue-200">
-        <div className="flex space-x-3 ">
+        <div className="flex justify-between space-x-3">
           <div>
             <h1 className="font-Poppins font-semibold text-xl">
               {reg.name}

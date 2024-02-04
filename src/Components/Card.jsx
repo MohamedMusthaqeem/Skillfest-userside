@@ -8,6 +8,7 @@ import first from "../assets/Images/first.png";
 import second from "../assets/Images/second.png";
 import third from "../assets/Images/third.png";
 import certification from "../assets/Images/icons8-certification-48.png";
+import {useAuthContext} from '../hooks/useAuthContext'
 import axios from "axios";
 
 const Card = ({ com }) => {
@@ -21,11 +22,13 @@ const Card = ({ com }) => {
   const [fees, setFee] = useState("");
   const [supportnumone, setOne] = useState("");
   const [supportnumtwo, setTwo] = useState("");
+  const {user}=useAuthContext();
   //modal open/close func
   const [openModal, setOpenModal] = useState(false);
   function onCloseModal() {
     setOpenModal(false);
   }
+
   //handling post request
   const handleRegister = async (e) => {
     setEvent(com.title);
@@ -33,6 +36,9 @@ const Card = ({ com }) => {
     setTwo(com.supportnumtwo);
     setFee(com.amount);
     e.preventDefault();
+    if(!user){
+      return
+    }
     const reg = {
       name,
       year,
@@ -48,6 +54,7 @@ const Card = ({ com }) => {
     const res = await axios.post("http://localhost:5000/api/register", reg, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization":`Bearer ${user.token}`,
       },
     });
     if (!res.status) {
@@ -189,6 +196,7 @@ const Card = ({ com }) => {
                           }}
                           value={year}
                         >
+                          <option value="">Select Year</option>
                           <option value="1">First</option>
                           <option value="2">Second</option>
                           <option value="3">Third</option>

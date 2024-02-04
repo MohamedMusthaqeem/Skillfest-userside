@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import {useLogout} from '../hooks/useLogout'
+import {useAuthContext} from '../hooks/useAuthContext'
 const Header = () => {
+  const{user}=useAuthContext()
+  const{logout}=useLogout();
+  const handleClick=()=>{
+   logout()
+  }
   const [active, Setactive] = useState({
     s1: "bg-black text-white px-2 py-1 rounded-full ",
     s2: "",
@@ -90,6 +97,10 @@ const Header = () => {
               About
             </Link>
           </div>
+        </div>
+        <div className="flex space-x-2 items-center">
+          <button className="text-white px-3 py-1 bg-rose-600 rounded-md" onClick={handleClick}  >Logout</button>
+          {user && <p className="text-lg font-medium">{`Welcome, ${user.name}`}</p>}
         </div>
       </div>
     </div>
