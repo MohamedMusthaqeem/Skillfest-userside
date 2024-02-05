@@ -22,6 +22,8 @@ const Card = ({ com }) => {
   const [fees, setFee] = useState("");
   const [supportnumone, setOne] = useState("");
   const [supportnumtwo, setTwo] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const {user}=useAuthContext();
   //modal open/close func
   const [openModal, setOpenModal] = useState(false);
@@ -35,6 +37,8 @@ const Card = ({ com }) => {
     setOne(com.supportnumone);
     setTwo(com.supportnumtwo);
     setFee(com.amount);
+    setDate(com.date);
+    setTime(com.time);
     e.preventDefault();
     if(!user){
       return
@@ -49,6 +53,8 @@ const Card = ({ com }) => {
       fees,
       supportnumone,
       supportnumtwo,
+      date,
+      time
     };
     console.log(reg);
     const res = await axios.post("http://localhost:5000/api/register", reg, {
