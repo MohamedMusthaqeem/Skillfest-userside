@@ -99,7 +99,7 @@ const Header = () => {
           </div>
         </div>
         <div className="flex space-x-2 items-center">
-          <button className="text-white px-3 py-1 bg-rose-600 rounded-md" onClick={handleClick}  >Logout</button>
+          <button className="text-white px-3 py-1 bg-rose-600 rounded-md hover:bg-red-600" onClick={handleClick}  >Logout</button>
           {user && <p className="text-lg font-medium">{`Welcome, ${user.name}`}</p>}
         </div>
       </div>

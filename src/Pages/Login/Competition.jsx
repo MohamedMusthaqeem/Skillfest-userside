@@ -8,7 +8,7 @@ const Competition = () => {
   const {user}=useAuthContext();
   useEffect(() => {
     const fetchCompetition = async () => {
-      const res = await axios.get("http://localhost:5000/api/routes",{
+      const res = await axios.get("http://localhost:5000/get_all/comp",{
         headers:{
           "Authorization":`Bearer ${user.token}`
         }

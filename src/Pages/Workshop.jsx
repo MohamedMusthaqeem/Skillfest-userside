@@ -7,7 +7,7 @@ const Workshop = () => {
   const {user}=useAuthContext();
   useEffect(() => {
     const getWorkshop = async () => {
-      const res = await axios.get("http://localhost:5000/api/workshops",{
+      const res = await axios.get("http://localhost:5000/get_all/work",{
         headers:{
           "Authorization":`Bearer ${user.token}`
         }
