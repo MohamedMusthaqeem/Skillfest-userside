@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Sign from "../../assets/Images/Mobile login.gif";
 import { useSignup } from "../../hooks/useSignup";
 import { RxCross2 } from "react-icons/rx";
+import { motion } from "framer-motion";
+import { login_text, logindiv, title } from "../../Styles/LoginStyles";
 export const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,14 +19,34 @@ export const Signup = () => {
   return (
     <div className="min-h-screen flex flex-col justify-center bg-white">
       <div className="flex flex-col md:flex-row items-center md:justify-evenly md:p-28 ">
-        <div>
+        <motion.div
+          initial={{ x: -500 }}
+          animate={{ x: 0 }}
+          transition={{ duration: 1 }}
+        >
           <img src={Sign} alt="" className="hidden md:block" />
-        </div>
-        <div className="w-full max-w-md p-6 bg-white rounded-md shadow-lg">
-          <h1 className="text-3xl font-semibold text-gray-800 uppercase">
-            skill <span className="text-red-600">f</span><span className="text-yellow-400">e</span><span className="text-green-500">s</span><span className="text-blue-600">t</span>
-          </h1>
-          <h1 className="text-3xl font-semibold text-gray-800 mb-6">SignUp</h1>
+        </motion.div>
+        <motion.div
+          className="w-full max-w-md p-6 bg-white rounded-md shadow-lg"
+          variants={logindiv}
+          animate="animate"
+          initial="initial"
+        >
+          <motion.h1
+            className="text-3xl font-semibold text-gray-800 uppercase"
+            variants={title}
+          >
+            skill <span className="text-red-600">f</span>
+            <span className="text-yellow-400">e</span>
+            <span className="text-green-500">s</span>
+            <span className="text-blue-600">t</span>
+          </motion.h1>
+          <motion.h1
+            className="text-3xl font-semibold text-gray-800 mb-6"
+            variants={login_text}
+          >
+            SignUp
+          </motion.h1>
 
           {/* Login Form */}
           <form onSubmit={handleSubmit}>
@@ -77,8 +99,8 @@ export const Signup = () => {
                 className="w-full
                bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
                 disabled={isLoading}
-                onClick={()=>{
-                  setShow("")
+                onClick={() => {
+                  setShow("");
                 }}
               >
                 Sign up
@@ -98,7 +120,7 @@ export const Signup = () => {
               </div>
             )}
           </form>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
