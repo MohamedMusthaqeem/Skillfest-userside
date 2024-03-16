@@ -5,7 +5,7 @@ import { Modal } from "flowbite-react";
 import { MdInfoOutline } from "react-icons/md";
 import { useState } from "react";
 import certification from "../assets/Images/icons8-certification-48.png";
-import {useAuthContext} from '../hooks/useAuthContext'
+import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 const Card_Workshop = ({ com }) => {
   //states
@@ -18,9 +18,9 @@ const Card_Workshop = ({ com }) => {
   const [fees, setFee] = useState("");
   const [supportnumone, setOne] = useState("");
   const [supportnumtwo, setTwo] = useState("");
-  const {user}=useAuthContext();
-  const [date,setDate]=useState("");
-  const [time,setTime]=useState("");
+  const { user } = useAuthContext();
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
 
   //modal on/off
   const [openModal, setOpenModal] = useState(false);
@@ -36,8 +36,8 @@ const Card_Workshop = ({ com }) => {
     setDate(com.date);
     setTime(com.time);
     e.preventDefault();
-    if(!user){
-      return
+    if (!user) {
+      return;
     }
     const reg = {
       name,
@@ -50,13 +50,13 @@ const Card_Workshop = ({ com }) => {
       supportnumone,
       supportnumtwo,
       date,
-      time
+      time,
     };
     console.log(reg);
     const res = await axios.post("http://localhost:5000/api/register", reg, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization":`Bearer ${user.token}`,
+        Authorization: `Bearer ${user.token}`,
       },
     });
     if (!res.status) {
@@ -125,6 +125,14 @@ const Card_Workshop = ({ com }) => {
                       <p>
                         <span className="font-semibold px-1">Date:</span>
                         {com.date}
+                      </p>
+                      <p>
+                        <span className="font-semibold px-1">End Date:</span>
+                        {com.end_date}
+                      </p>
+                      <p>
+                        <span className="font-semibold px-1">Venue:</span>
+                        {com.venue}
                       </p>
                       <div className="flex space-x-1 items-baseline">
                         <h1 className="text-lg font-Poppins font-semibold">
@@ -269,7 +277,10 @@ const Card_Workshop = ({ com }) => {
                         </p>
                       </div>
                       <div className="px-3 py-2">
-                        <button className="w-full py-2 rounded-xl border border-Primary hover:bg-Primary hover:text-white duration-150  " onClick={handleRegister}>
+                        <button
+                          className="w-full py-2 rounded-xl border border-Primary hover:bg-Primary hover:text-white duration-150  "
+                          onClick={handleRegister}
+                        >
                           Register
                         </button>
                         <div className="p-2 text-sm text-red-700 border border-red-700 rounded-lg my-2 bg-red-200">

@@ -8,7 +8,7 @@ import first from "../assets/Images/first.png";
 import second from "../assets/Images/second.png";
 import third from "../assets/Images/third.png";
 import certification from "../assets/Images/icons8-certification-48.png";
-import {useAuthContext} from '../hooks/useAuthContext'
+import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 
 const Card = ({ com }) => {
@@ -24,7 +24,7 @@ const Card = ({ com }) => {
   const [supportnumtwo, setTwo] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const {user}=useAuthContext();
+  const { user } = useAuthContext();
   //modal open/close func
   const [openModal, setOpenModal] = useState(false);
   function onCloseModal() {
@@ -40,8 +40,8 @@ const Card = ({ com }) => {
     setDate(com.date);
     setTime(com.time);
     e.preventDefault();
-    if(!user){
-      return
+    if (!user) {
+      return;
     }
     const reg = {
       name,
@@ -54,13 +54,13 @@ const Card = ({ com }) => {
       supportnumone,
       supportnumtwo,
       date,
-      time
+      time,
     };
     console.log(reg);
     const res = await axios.post("http://localhost:5000/api/register", reg, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization":`Bearer ${user.token}`,
+        Authorization: `Bearer ${user.token}`,
       },
     });
     if (!res.status) {
@@ -129,6 +129,10 @@ const Card = ({ com }) => {
                       <p>
                         <span className="font-semibold px-1">Date:</span>
                         {com.date}
+                      </p>
+                      <p>
+                        <span className="font-semibold px-1">Venue</span>
+                        {com.venue}
                       </p>
                       <div className="space-y-2">
                         <h1 className="text-lg text-center">Prize Pool</h1>
