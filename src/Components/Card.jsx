@@ -10,6 +10,9 @@ import third from "../assets/Images/third.png";
 import certification from "../assets/Images/icons8-certification-48.png";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
+import { storage } from "./firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
 
 const Card = ({ com }) => {
   //states
@@ -24,13 +27,34 @@ const Card = ({ com }) => {
   const [supportnumtwo, setTwo] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [upload, setUpload] = useState("");
+  const [pdf, setPdf] = useState("");
+  const [status, setStatus] = useState("");
   const { user } = useAuthContext();
   //modal open/close func
   const [openModal, setOpenModal] = useState(false);
   function onCloseModal() {
     setOpenModal(false);
+    setStatus("");
   }
-
+  //upload pdf------------
+  const uploadPdf = (e) => {
+    e.preventDefault();
+    if (pdf == "") {
+      setStatus("Couldn't able to find any file");
+      return;
+    } else {
+      const pdfRef = ref(storage, `pdf/${pdf.name + v4()}`);
+      uploadBytes(pdfRef, pdf).then(() => {
+        setStatus("file uploading...........");
+        getDownloadURL(pdfRef).then((url) => {
+          console.log(url);
+          setStatus("file uploaded ✅");
+          setUpload(url);
+        });
+      });
+    }
+  };
   //handling post request
   const handleRegister = async (e) => {
     setEvent(com.title);
@@ -55,6 +79,7 @@ const Card = ({ com }) => {
       supportnumtwo,
       date,
       time,
+      upload,
     };
     console.log(reg);
     const res = await axios.post("http://localhost:5000/api/register", reg, {
@@ -76,6 +101,7 @@ const Card = ({ com }) => {
       setEmail("");
       setYear("");
       setTwo("");
+      setUpload("");
       console.log("registered", res.data);
     }
   };
@@ -263,6 +289,31 @@ const Card = ({ com }) => {
                           placeholder="**********"
                           required
                         />
+                      </div>
+                      <div className="px-3 ">
+                        <label className="block  text-black     ">
+                          Upload files (if Mentioned)
+                        </label>
+                        <input
+                          type="file"
+                          accept=".pdf"
+                          onChange={(e) => {
+                            setPdf(e.target.files[0]);
+                          }}
+                          className="mt-1 h-12 w-full border rounded-md outline-none"
+                          required
+                        />
+                        <div className="flex items-baseline">
+                          <button
+                            className="bg-green-600 text-white text-sm p-2 rounded-l-lg m-1 "
+                            onClick={uploadPdf}
+                          >
+                            Upload
+                          </button>
+                          <h1 className="text-sm text-green-500 px-2">
+                            {status}
+                          </h1>
+                        </div>
                       </div>
                       <div className="px-3">
                         <p>
