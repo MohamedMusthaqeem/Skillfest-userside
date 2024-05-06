@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 export const useLogin = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
@@ -28,7 +29,10 @@ export const useLogin = () => {
       //update auth context
       dispatch({ type: "LOGIN", payload: json });
       setIsLoading(false);
-      navigate('/layout')
+      navigate("/layout");
+      toast.success("Login Successfull,Hi👋", {
+        duration: 4000,
+      });
     }
   };
   return { login, error, isLoading };

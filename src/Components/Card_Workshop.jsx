@@ -7,6 +7,8 @@ import { useState } from "react";
 import certification from "../assets/Images/icons8-certification-48.png";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
+import { userSchema } from "../Components/UserValidation";
+import toast, { Toaster } from "react-hot-toast";
 const Card_Workshop = ({ com }) => {
   //states
   const [name, setName] = useState("");
@@ -21,11 +23,13 @@ const Card_Workshop = ({ com }) => {
   const { user } = useAuthContext();
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [error, setError] = useState("");
 
   //modal on/off
   const [openModal, setOpenModal] = useState(false);
   function onCloseModal() {
     setOpenModal(false);
+    setError("");
   }
   //handling post request
   const handleRegister = async (e) => {
@@ -53,26 +57,46 @@ const Card_Workshop = ({ com }) => {
       time,
     };
     console.log(reg);
-    const res = await axios.post("http://localhost:5000/api/register", reg, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-    if (!res.status) {
-      console.log("could able to register");
+    try {
+      await userSchema.validate(reg, { abortEarly: false });
+      console.log("Form submitted", reg);
+    } catch (error) {
+      toast.error("validation failed");
+      const newError = {};
+      error.inner.forEach((err) => {
+        newError[err.path] = err.message;
+        setError(newError);
+      });
     }
-    if (res.status) {
-      setName("");
-      setEvent("");
-      setFee("");
-      setCollege("");
-      setPhone("");
-      setOne("");
-      setEmail("");
-      setYear("");
-      setTwo("");
-      console.log("registered", res.data);
+    const valid = await userSchema.isValid(reg);
+    if (valid) {
+      const res = await axios.post("http://localhost:5000/api/register", reg, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      if (!res.status) {
+        console.log("could able to register");
+      }
+      if (res.status) {
+        setName("");
+        setEvent("");
+        setFee("");
+        setCollege("");
+        setPhone("");
+        setOne("");
+        setEmail("");
+        setYear("");
+        setTwo("");
+        console.log("registered", res.data);
+        toast.success(
+          "Successfully registered,you will recieve a email shortly",
+          {
+            duration: 5000,
+          }
+        );
+      }
     }
   };
   return (
@@ -201,6 +225,9 @@ const Card_Workshop = ({ com }) => {
                           placeholder="John"
                           required
                         />
+                        {error.name && (
+                          <div className="text-red-700">{error.name}</div>
+                        )}
                       </div>
                       <div className="px-3">
                         <label htmlFor="email" className="block   text-black">
@@ -219,6 +246,9 @@ const Card_Workshop = ({ com }) => {
                           <option value="3">Third</option>
                           <option value="4">Fourth</option>
                         </select>
+                        {error.year && (
+                          <div className="text-red-700">{error.year}</div>
+                        )}
                       </div>
                       <div className="px-3">
                         <label htmlFor="password" className="block  text-black">
@@ -234,6 +264,9 @@ const Card_Workshop = ({ com }) => {
                           placeholder="****"
                           required
                         />
+                        {error.college && (
+                          <div className="text-red-700">{error.college}</div>
+                        )}
                       </div>
                       <div className="px-3">
                         <label
@@ -252,6 +285,9 @@ const Card_Workshop = ({ com }) => {
                           placeholder="****"
                           required
                         />
+                        {error.email && (
+                          <div className="text-red-700">{error.email}</div>
+                        )}
                       </div>
                       <div className="px-3 ">
                         <label
@@ -270,6 +306,9 @@ const Card_Workshop = ({ com }) => {
                           placeholder="**********"
                           required
                         />
+                        {error.phone_no && (
+                          <div className="text-red-700">{error.phone_no}</div>
+                        )}
                       </div>
                       <div className="px-3">
                         <p>

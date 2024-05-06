@@ -12,7 +12,9 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import { storage } from "./firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { userSchema } from "../Components/UserValidation";
 import { v4 } from "uuid";
+import toast, { Toaster } from "react-hot-toast";
 
 const Card = ({ com }) => {
   //states
@@ -30,12 +32,14 @@ const Card = ({ com }) => {
   const [upload, setUpload] = useState("");
   const [pdf, setPdf] = useState("");
   const [status, setStatus] = useState("");
+  const [error, setError] = useState("");
   const { user } = useAuthContext();
   //modal open/close func
   const [openModal, setOpenModal] = useState(false);
   function onCloseModal() {
     setOpenModal(false);
     setStatus("");
+    setError("");
   }
   //upload pdf------------
   const uploadPdf = (e) => {
@@ -51,6 +55,9 @@ const Card = ({ com }) => {
           console.log(url);
           setStatus("file uploaded ✅");
           setUpload(url);
+          toast("file uploaded", {
+            icon: "💡",
+          });
         });
       });
     }
@@ -82,27 +89,47 @@ const Card = ({ com }) => {
       upload,
     };
     console.log(reg);
-    const res = await axios.post("http://localhost:5000/api/register", reg, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-    if (!res.status) {
-      console.log("could able to register");
+    try {
+      await userSchema.validate(reg, { abortEarly: false });
+      console.log("Form submitted", reg);
+    } catch (error) {
+      toast.error("validation failed");
+      const newError = {};
+      error.inner.forEach((err) => {
+        newError[err.path] = err.message;
+        setError(newError);
+      });
     }
-    if (res.status) {
-      setName("");
-      setEvent("");
-      setFee("");
-      setCollege("");
-      setPhone("");
-      setOne("");
-      setEmail("");
-      setYear("");
-      setTwo("");
-      setUpload("");
-      console.log("registered", res.data);
+    const valid = await userSchema.isValid(reg);
+    if (valid) {
+      const res = await axios.post("http://localhost:5000/api/register", reg, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      if (!res.status) {
+        console.log("couldn't able to register");
+      }
+      if (res.status) {
+        setName("");
+        setEvent("");
+        setFee("");
+        setCollege("");
+        setPhone("");
+        setOne("");
+        setEmail("");
+        setYear("");
+        setTwo("");
+        setUpload("");
+        console.log("registered", res.data);
+        toast.success(
+          "Successfully registered,you will recieve a email shortly",
+          {
+            duration: 5000,
+          }
+        );
+      }
     }
   };
   return (
@@ -220,6 +247,9 @@ const Card = ({ com }) => {
                           placeholder="John"
                           required
                         />
+                        {error.name && (
+                          <div className="text-red-700">{error.name}</div>
+                        )}
                       </div>
                       <div className="px-3">
                         <label htmlFor="email" className="block   text-black">
@@ -238,6 +268,9 @@ const Card = ({ com }) => {
                           <option value="3">Third</option>
                           <option value="4">Fourth</option>
                         </select>
+                        {error.year && (
+                          <div className="text-red-700">{error.year}</div>
+                        )}
                       </div>
                       <div className="px-3">
                         <label htmlFor="password" className="block  text-black">
@@ -253,6 +286,9 @@ const Card = ({ com }) => {
                           placeholder="****"
                           required
                         />
+                        {error.college && (
+                          <div className="text-red-700">{error.college}</div>
+                        )}
                       </div>
                       <div className="px-3">
                         <label
@@ -271,6 +307,9 @@ const Card = ({ com }) => {
                           placeholder="****"
                           required
                         />
+                        {error.email && (
+                          <div className="text-red-700">{error.email}</div>
+                        )}
                       </div>
                       <div className="px-3 ">
                         <label
@@ -289,6 +328,9 @@ const Card = ({ com }) => {
                           placeholder="**********"
                           required
                         />
+                        {error.phone_no && (
+                          <div className="text-red-700">{error.phone_no}</div>
+                        )}
                       </div>
                       <div className="px-3 ">
                         <label className="block  text-black     ">

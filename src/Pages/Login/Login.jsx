@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import LoginImg from "../../assets/Images/Ani.gif";
 import Google from "../../assets/Images/Google.png";
+
 import { Link } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
 import { RxCross2 } from "react-icons/rx";

@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   //signup function
   const signup = async (user_name, email, password) => {
@@ -27,7 +28,8 @@ export const useSignup = () => {
       //update auth context
       dispatch({ type: "LOGIN", payload: json });
       setIsLoading(false);
-      navigate('/');
+      navigate("/");
+      toast.success("Signed Up Successful");
     }
   };
   return { signup, error, isLoading };

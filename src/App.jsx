@@ -8,9 +8,11 @@ import Registered from "./Pages/Registered";
 import About from "./Pages/About";
 import Layout1 from "./Layout1";
 import Signup from "./Pages/Login/Signup";
+import toast, { Toaster } from "react-hot-toast";
 function App() {
   return (
     <>
+      <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<Layout1 />}>
           <Route path="/" element={<Login />} />

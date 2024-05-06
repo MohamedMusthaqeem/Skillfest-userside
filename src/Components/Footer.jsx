@@ -21,8 +21,10 @@ const Footer = () => {
           <p>SREC</p>
           <p>Vattamalaipalayam,N.G.G.O Colony</p>
           <p>Coimbatore-641022</p>
-          <p>Email: info@skillfestcollege.com</p>
-          <p>Phone: +1 (123) 456-7890</p>
+          <a href="www.srec.ac.in" target="blank">
+            www.srec.ac.in
+          </a>{" "}
+          <p>Phone: 9360774943</p>
         </div>
       </div>
     </div>
