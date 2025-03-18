@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import Register_Card from "../Components/Register_Card";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
+import config from "../config";
 
 const Registered = () => {
+  const { SERVER_ADDRESS } = config;
   const [regsiter, setRegister] = useState([]);
   const { user } = useAuthContext();
   useEffect(() => {
     const fetchRegister = async () => {
       const res = await axios.get(
-        "http://localhost:5000/api/register",
+        `${SERVER_ADDRESS}/api/register`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,

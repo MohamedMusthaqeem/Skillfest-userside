@@ -1,17 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Card from "../Components/Card";
-import {useAuthContext} from '../hooks/useAuthContext'
-
+import { useAuthContext } from "../hooks/useAuthContext";
+import config from "../config";
 const Events = () => {
+  const { SERVER_ADDRESS } = config;
   const [event, setEvent] = useState([]);
-  const{user}=useAuthContext();
+  const { user } = useAuthContext();
   useEffect(() => {
     const getEvents = async () => {
-      const res = await axios.get("http://localhost:5000/get_all/event",{
-        headers:{
-          "Authorization":`Bearer ${user.token}`
-        }
+      const res = await axios.get(`${SERVER_ADDRESS}/get_all/event`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
       });
       const data = res.data;
       if (res.status) {
@@ -19,7 +20,7 @@ const Events = () => {
         console.log(data);
       }
     };
-    if(user){
+    if (user) {
       getEvents();
     }
   }, [user]);

@@ -10,11 +10,14 @@ export const useSignup = () => {
 
   //signup function
   const signup = async (user_name, email, password) => {
-    const res = await fetch("http://localhost:5000/api/user/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user_name, email, password }),
-    });
+    const res = await fetch(
+      "https://skillfest-backend.onrender.com/api/user/signup",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_name, email, password }),
+      }
+    );
 
     const json = await res.json();
 

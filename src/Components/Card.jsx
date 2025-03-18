@@ -15,8 +15,10 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { userSchema } from "../Components/UserValidation";
 import { v4 } from "uuid";
 import toast, { Toaster } from "react-hot-toast";
+import config from "../config";
 
 const Card = ({ com }) => {
+  const { SERVER_ADDRESS } = config;
   //states
   const [name, setName] = useState("");
   const [year, setYear] = useState("");
@@ -105,7 +107,7 @@ const Card = ({ com }) => {
     }
     const valid = await userSchema.isValid(reg);
     if (valid) {
-      const res = await axios.post("http://localhost:5000/api/register", reg, {
+      const res = await axios.post(`${SERVER_ADDRESS}/api/register`, reg, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,

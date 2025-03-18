@@ -9,7 +9,9 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
 import { userSchema } from "../Components/UserValidation";
 import toast, { Toaster } from "react-hot-toast";
+import config from "../config";
 const Card_Workshop = ({ com }) => {
+  const { SERVER_ADDRESS } = config;
   //states
   const [name, setName] = useState("");
   const [year, setYear] = useState("");
@@ -73,7 +75,7 @@ const Card_Workshop = ({ com }) => {
     }
     const valid = await userSchema.isValid(reg);
     if (valid) {
-      const res = await axios.post("http://localhost:5000/api/register", reg, {
+      const res = await axios.post(`${SERVER_ADDRESS}/api/register`, reg, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,

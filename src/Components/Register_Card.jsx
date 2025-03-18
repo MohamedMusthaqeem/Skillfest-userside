@@ -3,8 +3,10 @@ import { FaPhoneAlt } from "react-icons/fa";
 import register from "../assets/Images/registered.png";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
+import config from "../config";
 
 const RegisterCard = ({ reg }) => {
+  const { SERVER_ADDRESS } = config;
   const [showForm, setShowForm] = useState(false);
   const [comment, setComment] = useState("");
   const { user } = useAuthContext();
@@ -26,16 +28,12 @@ const RegisterCard = ({ reg }) => {
       user_main_id: reg.user_main_id,
     };
     console.log(fed);
-    const res = await axios.post(
-      "http://localhost:5000/api/register/setfed",
-      fed,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      }
-    );
+    const res = await axios.post(`${SERVER_ADDRESS}/api/register/setfed`, fed, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
     const data = res.data;
     if (res.status) {
       console.log(data);
