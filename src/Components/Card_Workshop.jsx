@@ -19,6 +19,7 @@ const Card_Workshop = ({ com }) => {
   const [event_name, setEvent] = useState("");
   const [fees, setFee] = useState("");
   const [supportnumone, setOne] = useState("");
+  const [user_main_id, setUserId] = useState("");
   const [supportnumtwo, setTwo] = useState("");
   const { user } = useAuthContext();
   const [date, setDate] = useState("");
@@ -37,6 +38,7 @@ const Card_Workshop = ({ com }) => {
     setOne(com.supportnumone);
     setTwo(com.supportnumtwo);
     setFee(com.amount);
+    setUserId(com.user_id);
     setDate(com.date);
     setTime(com.time);
     e.preventDefault();
@@ -55,6 +57,7 @@ const Card_Workshop = ({ com }) => {
       supportnumtwo,
       date,
       time,
+      user_main_id,
     };
     console.log(reg);
     try {
@@ -88,6 +91,7 @@ const Card_Workshop = ({ com }) => {
         setOne("");
         setEmail("");
         setYear("");
+        setUserId("");
         setTwo("");
         console.log("registered", res.data);
         toast.success(

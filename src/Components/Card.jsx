@@ -25,6 +25,7 @@ const Card = ({ com }) => {
   const [phone_no, setPhone] = useState("");
   const [event_name, setEvent] = useState("");
   const [fees, setFee] = useState("");
+  const [user_main_id, setUserId] = useState("");
   const [supportnumone, setOne] = useState("");
   const [supportnumtwo, setTwo] = useState("");
   const [date, setDate] = useState("");
@@ -68,6 +69,7 @@ const Card = ({ com }) => {
     setOne(com.supportnumone);
     setTwo(com.supportnumtwo);
     setFee(com.amount);
+    setUserId(com.user_id);
     setDate(com.date);
     setTime(com.time);
     e.preventDefault();
@@ -87,6 +89,7 @@ const Card = ({ com }) => {
       date,
       time,
       upload,
+      user_main_id,
     };
     console.log(reg);
     try {
@@ -119,6 +122,7 @@ const Card = ({ com }) => {
         setPhone("");
         setOne("");
         setEmail("");
+        setUserId("");
         setYear("");
         setTwo("");
         setUpload("");
