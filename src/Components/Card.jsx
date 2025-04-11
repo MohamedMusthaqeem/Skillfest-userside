@@ -16,6 +16,7 @@ import { userSchema } from "../Components/UserValidation";
 import { v4 } from "uuid";
 import toast, { Toaster } from "react-hot-toast";
 import config from "../config";
+import Map from "./Map";
 
 const Card = ({ com }) => {
   const { SERVER_ADDRESS } = config;
@@ -176,8 +177,8 @@ const Card = ({ com }) => {
               <Modal show={openModal} size="xl" onClose={onCloseModal} popup>
                 <Modal.Header />
                 <Modal.Body>
-                  <div className="space-y-6 overflow-y-auto">
-                    <img src={com.imageurl} alt="" />
+                  <div className="space-y-6">
+                    <img src={com.imageurl} alt="" className="rounded-md" />
                     <div className="font-Poppins">
                       <p className="text-lg font-semibold">{com.title}</p>
                       <p className="text-wrap">{com.description}</p>
@@ -382,6 +383,12 @@ const Card = ({ com }) => {
                         </div>
                       </div>
                     </form>
+                    <div className="p-2 h-96 w-full">
+                      <p className="text-sm mb-1">Location</p>
+                      <div className="h-full w-full rounded overflow-hidden">
+                        <Map locationName="Sri Ramakrishna Engineering College,Coimbatore" />
+                      </div>
+                    </div>
                   </div>
                 </Modal.Body>
               </Modal>

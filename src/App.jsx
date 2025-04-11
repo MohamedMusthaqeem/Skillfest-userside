@@ -8,6 +8,7 @@ import Registered from "./Pages/Registered";
 import About from "./Pages/About";
 import Layout1 from "./Layout1";
 import Signup from "./Pages/Login/Signup";
+import Issues from "./Pages/Issues";
 import toast, { Toaster } from "react-hot-toast";
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/layout/workshop" element={<Workshop />} />
           <Route path="/layout/register" element={<Registered />} />
           <Route path="/layout/about" element={<About />} />
+          <Route path="/layout/issues" element={<Issues />} />
         </Route>
       </Routes>
     </>

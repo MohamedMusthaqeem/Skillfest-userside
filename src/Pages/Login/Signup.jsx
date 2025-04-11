@@ -3,8 +3,26 @@ import Sign from "../../assets/Images/Mobile login.gif";
 import { useSignup } from "../../hooks/useSignup";
 import { RxCross2 } from "react-icons/rx";
 import { motion } from "framer-motion";
-import { login_text, logindiv, title } from "../../Styles/LoginStyles";
-export const Signup = () => {
+
+const container = {
+  hidden: { opacity: 0, y: 40 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0 },
+};
+
+const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,112 +35,122 @@ export const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center bg-white">
-      <div className="flex flex-col md:flex-row items-center md:justify-evenly md:p-28 ">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.7 }}
+      className="min-h-screen flex flex-col justify-center bg-gradient-to-r from-white to-blue-50"
+    >
+      <div className="flex flex-col md:flex-row items-center md:justify-evenly md:p-28">
         <motion.div
-          initial={{ x: -500 }}
-          animate={{ x: 0 }}
-          transition={{ duration: 1 }}
+          initial={{ x: -200, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          whileHover={{
+            scale: 1.05,
+            transition: { yoyo: Infinity, duration: 1 },
+          }}
         >
-          <img src={Sign} alt="" className="hidden md:block" />
+          <img
+            src={Sign}
+            alt="signup gif"
+            className="hidden md:block w-[400px]"
+          />
         </motion.div>
+
         <motion.div
-          className="w-full max-w-md p-6 bg-white rounded-md shadow-lg"
-          variants={logindiv}
-          animate="animate"
-          initial="initial"
+          className="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl"
+          variants={container}
+          initial="hidden"
+          animate="show"
         >
           <motion.h1
-            className="text-3xl font-semibold text-gray-800 uppercase"
-            variants={title}
+            className="text-4xl font-bold text-gray-800 uppercase text-center mb-2"
+            variants={item}
           >
             skill <span className="text-red-600">f</span>
             <span className="text-yellow-400">e</span>
             <span className="text-green-500">s</span>
             <span className="text-blue-600">t</span>
           </motion.h1>
-          <motion.h1
-            className="text-3xl font-semibold text-gray-800 mb-6"
-            variants={login_text}
-          >
-            SignUp
-          </motion.h1>
 
-          {/* Login Form */}
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
+          <motion.h2
+            className="text-2xl font-semibold text-gray-600 text-center mb-6"
+            variants={item}
+          >
+            Create your account 🚀
+          </motion.h2>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <motion.div variants={item}>
               <label className="block text-sm font-medium text-gray-600">
                 Name
               </label>
               <input
                 type="text"
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
                 value={name}
-                className="mt-1 p-2 w-full border rounded-md outline-none"
-                placeholder="sample@example.com"
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your Name"
+                className="mt-1 p-2 w-full border rounded-md outline-none focus:ring-2 focus:ring-blue-400"
               />
-            </div>
-            <div className="mb-4">
+            </motion.div>
+
+            <motion.div variants={item}>
               <label className="block text-sm font-medium text-gray-600">
                 Email Address
               </label>
               <input
                 type="email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
                 value={email}
-                className="mt-1 p-2 w-full border rounded-md outline-none"
-                placeholder="sample@example.com"
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className="mt-1 p-2 w-full border rounded-md outline-none focus:ring-2 focus:ring-blue-400"
               />
-            </div>
+            </motion.div>
 
-            <div className="mb-4">
+            <motion.div variants={item}>
               <label className="block text-sm font-medium text-gray-600">
                 Password
               </label>
               <input
                 type="password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
                 value={password}
-                autoComplete="on"
-                className="mt-1 p-2 w-full border rounded-md outline-none"
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="********"
+                className="mt-1 p-2 w-full border rounded-md outline-none focus:ring-2 focus:ring-blue-400"
               />
-            </div>
-            {/* Submit Button */}
-            <div className="py-2 ">
-              <button
-                className="w-full
-               bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+            </motion.div>
+
+            <motion.div variants={item}>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
                 disabled={isLoading}
-                onClick={() => {
-                  setShow("");
-                }}
+                onClick={() => setShow("")}
+                className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
               >
                 Sign up
-              </button>
-            </div>
-            {error && (
-              <div
-                className={`text-red-700 border bg-red-200 border-red-600 p-2 justify-center items-center gap-4  rounded-lg flex ${show}`}
-              >
-                {error}
-                <RxCross2
-                  className="cursor-pointer"
-                  onClick={() => {
-                    setShow("hidden");
-                  }}
-                />
-              </div>
-            )}
+              </motion.button>
+            </motion.div>
           </form>
+
+          {error && (
+            <motion.div
+              className={`text-red-700 border bg-red-100 border-red-600 p-3 mt-4 rounded-lg flex items-center justify-between ${show}`}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <span>{error}</span>
+              <RxCross2
+                className="cursor-pointer"
+                onClick={() => setShow("hidden")}
+              />
+            </motion.div>
+          )}
         </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

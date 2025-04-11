@@ -8,13 +8,15 @@ import config from "../config";
 const RegisterCard = ({ reg }) => {
   const { SERVER_ADDRESS } = config;
   const [showForm, setShowForm] = useState(false);
+  const [showIssueForm, setShowIssueForm] = useState(false);
   const [comment, setComment] = useState("");
+  const [issue, setIssue] = useState("");
   const { user } = useAuthContext();
+
   const handleRegister = async (e) => {
     e.preventDefault();
-    if (!user) {
-      return;
-    }
+    if (!user) return;
+
     const fed = {
       name: reg.name,
       year: reg.year,
@@ -27,20 +29,54 @@ const RegisterCard = ({ reg }) => {
       time: reg.time,
       user_main_id: reg.user_main_id,
     };
-    console.log(fed);
+
     const res = await axios.post(`${SERVER_ADDRESS}/api/register/setfed`, fed, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${user.token}`,
       },
     });
-    const data = res.data;
+
     if (res.status) {
-      console.log(data);
       setComment("");
       setShowForm(false);
     }
   };
+
+  const handleIssue = async (e) => {
+    e.preventDefault();
+    if (!user) return;
+
+    const issueData = {
+      name: reg.name,
+      college: reg.college,
+      email: reg.email,
+      year: reg.year,
+      phone_no: reg.phone_no,
+      issue: issue,
+      event_name: reg.event_name,
+      date: reg.date,
+      time: reg.time,
+      user_main_id: reg.user_main_id,
+    };
+
+    const res = await axios.post(
+      `${SERVER_ADDRESS}/api/register/setissue`,
+      issueData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+
+    if (res.status) {
+      setIssue("");
+      setShowIssueForm(false);
+    }
+  };
+
   return (
     <div className="max-w-lg mx-auto bg-gradient-to-r from-blue-50 to-blue-100 shadow-xl rounded-2xl overflow-hidden border border-gray-300 p-6 transform hover:scale-105 transition duration-300 ease-in-out m-4">
       <div className="flex items-center justify-between mb-6">
@@ -80,13 +116,22 @@ const RegisterCard = ({ reg }) => {
         </div>
       </div>
 
-      <button
-        className="mt-6 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
-        onClick={() => setShowForm(true)}
-      >
-        Give Feedback
-      </button>
+      <div className="mt-6 grid grid-cols-2 gap-3">
+        <button
+          className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+          onClick={() => setShowForm(true)}
+        >
+          Give Feedback
+        </button>
+        <button
+          className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-300"
+          onClick={() => setShowIssueForm(true)}
+        >
+          Report Issue
+        </button>
+      </div>
 
+      {/* Feedback Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
@@ -130,10 +175,62 @@ const RegisterCard = ({ reg }) => {
               </button>
               <button
                 className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
-                disabled={comment.length === 0 ? true : false}
-                onClick={(e) => {
-                  handleRegister(e);
-                }}
+                disabled={comment.length === 0}
+                onClick={handleRegister}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Issue Report Modal */}
+      {showIssueForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 className="text-xl font-semibold text-red-600 mb-4">
+              Report an Issue
+            </h2>
+            <label className="block text-sm font-medium text-gray-700">
+              Name
+            </label>
+            <input
+              type="text"
+              value={reg.name}
+              readOnly
+              className="w-full p-2 border rounded-lg bg-gray-100 text-gray-700"
+            />
+            <label className="block text-sm font-medium text-gray-700 mt-2">
+              College Name
+            </label>
+            <input
+              type="text"
+              value={reg.college}
+              readOnly
+              className="w-full p-2 border rounded-lg bg-gray-100 text-gray-700"
+            />
+            <label className="block text-sm font-medium text-gray-700 mt-2">
+              Issue
+            </label>
+            <textarea
+              className="w-full p-2 border rounded-lg"
+              rows="4"
+              value={issue}
+              onChange={(e) => setIssue(e.target.value)}
+              placeholder="Describe your issue here..."
+            ></textarea>
+            <div className="flex justify-end space-x-2 mt-4">
+              <button
+                className="bg-gray-400 text-white py-2 px-4 rounded-lg"
+                onClick={() => setShowIssueForm(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300"
+                disabled={issue.length === 0}
+                onClick={handleIssue}
               >
                 Submit
               </button>
